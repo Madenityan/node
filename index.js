@@ -6,21 +6,22 @@ let http = require('http');
 let express = require('express');
 
 let app = express();
+app.set('view engine', 'ejs');
+
 app.get('/', function(req, res) {
-  res.send('home');
+  res.sendFile(__dirname + '/index.html');
 });
-app.get('/news', function(req, res) {
-  res.send('news');
+
+app.get('/about', function(req, res) {
+  res.sendFile(__dirname + '/about.html');
 });
+
 app.get('/news/:id', function(req, res) {
-  res.send('Id is - ' + req.params.id);
+  let obj = {title: 'Новость', id: 4};
+  res.render('news',{newsId: req.params.id, newParam: 234, obj:obj});
 });
 
 app.listen(3000);
-
-
-
-
 
 
 // Потоки, pipe
