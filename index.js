@@ -3,6 +3,25 @@ let events = require('events');
 let util = require('util');
 let fs = require('fs');
 let http = require('http');
+let express = require('express');
+
+let app = express();
+app.get('/', function(req, res) {
+  res.send('home');
+});
+app.get('/news', function(req, res) {
+  res.send('news');
+});
+app.get('/news/:id', function(req, res) {
+  res.send('Id is - ' + req.params.id);
+});
+
+app.listen(3000);
+
+
+
+
+
 
 // Потоки, pipe
 // let myReadShort  = fs.createReadStream(__dirname + '/article.txt');
@@ -13,22 +32,23 @@ let http = require('http');
 //   myWriteShort.write(chunk);
 // });
 
-let server = http.createServer(function(req, res) {
-  console.log('URL: ' + req.url);
-  if (req.url === '/index' || req.url === '/') {
-    res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-    fs.createReadStream(__dirname + '/index.html').pipe(res);
-  } else if (req.url === '/about') {
-    res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-    fs.createReadStream(__dirname + '/about.html').pipe(res);
-  } else {
-    res.writeHead(404, {'Content-Type': 'text/html; charset=utf-8'});
-    fs.createReadStream(__dirname + '/404.html').pipe(res);
-  }
-});
-
-server.listen(3000, '127.0.0.1');
-console.log('порт 3000');
+// Server
+// let server = http.createServer(function(req, res) {
+//   console.log('URL: ' + req.url);
+//   if (req.url === '/index' || req.url === '/') {
+//     res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+//     fs.createReadStream(__dirname + '/index.html').pipe(res);
+//   } else if (req.url === '/about') {
+//     res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+//     fs.createReadStream(__dirname + '/about.html').pipe(res);
+//   } else {
+//     res.writeHead(404, {'Content-Type': 'text/html; charset=utf-8'});
+//     fs.createReadStream(__dirname + '/404.html').pipe(res);
+//   }
+// });
+//
+// server.listen(3000, '127.0.0.1');
+// console.log('порт 3000');
 
 // function test() {
 //   console.log('yoyo');
