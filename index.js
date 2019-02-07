@@ -2,12 +2,29 @@ let things = require('./things.js');
 let events = require('events');
 let util = require('util');
 let fs = require('fs');
-
 let http = require('http');
 
+// Потоки, pipe
+// let myReadShort  = fs.createReadStream(__dirname + '/article.txt');
+// let myWriteShort  = fs.createWriteStream(__dirname + '/news.txt');
+//
+// myReadShort.on('data', function(chunk) {
+//   console.log('New data get:\n' + chunk);
+//   myWriteShort.write(chunk);
+// });
+
 let server = http.createServer(function(req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain; charset:utf-8'});
-  res.end('Hi!');
+  console.log('URL: ' + req.url);
+  if (req.url === '/index' || req.url === '/') {
+    res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+    fs.createReadStream(__dirname + '/index.html').pipe(res);
+  } else if (req.url === '/about') {
+    res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+    fs.createReadStream(__dirname + '/about.html').pipe(res);
+  } else {
+    res.writeHead(404, {'Content-Type': 'text/html; charset=utf-8'});
+    fs.createReadStream(__dirname + '/404.html').pipe(res);
+  }
 });
 
 server.listen(3000, '127.0.0.1');
@@ -82,4 +99,3 @@ console.log('порт 3000');
 //   });
 // });
 
-let myReadShort  = fs.createReadStream();
